@@ -1,0 +1,16 @@
+<% if (success && success.length > 0) { %>
+  <div class="alert alert-success alert-dismissible fade show col-6 offset-3" role="alert">
+      <%= success %>
+      <button type="button" class="close" aria-label="Close" style="position: absolute; right: 10px; top: 10px; background-color: transparent; border: none;" onclick="closeAlert();">
+          <span aria-hidden="true" style="color: inherit;">&times;</span>
+      </button>
+  </div>
+<% } %>
+<% if (error && error.length > 0) { %>
+  <div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert">
+      <%= error %>
+      <button type="button" class="close" aria-label="Close" style="position: absolute; right: 10px; top: 10px; background-color: transparent; border: none;" onclick="closeAlert();">
+          <span aria-hidden="true" style="color: inherit;">&times;</span>
+      </button>
+  </div>
+<% } %>

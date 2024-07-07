@@ -1,0 +1,31 @@
+.custom-star-rating {
+    display: inline-block;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.custom-star-rating input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.custom-star-rating label {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    border-radius: 50%; /* Ensures round shape for star */
+    padding: 5px; /* Adjust padding for space around stars */
+    color: #3e4a61; /* White star */
+}
+
+.custom-star-rating label i {
+    display: block;
+}
+
+.custom-star-rating label:hover,
+.custom-star-rating input:checked ~ label {
+    color: #ffc107; /* Gold color when hovered or checked */
+    border-color: #ffc107; /* Gold border color when hovered or checked */
+}

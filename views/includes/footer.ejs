@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="path/to/your/styles.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure the body takes up the full viewport height */
+        }
+        .content {
+            flex: 1;
+        }
+        footer {
+            background-color: #f1f1f1;
+            padding: 10px 0;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        .f-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .f-info-links a {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <!-- Your main content goes here -->
+    </div>
+    <footer>
+        <div class="f-info">
+            <div class="footer-title"> &#169 WanderLust pvt ltd</div>
+            <div class="f-info-links">
+                <a href="/privacy">Privacy</a>
+                <a href="/terms">Terms</a>
+                <a href="/twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="/facebook"><i class="fa-brands fa-facebook"></i></a>
+                <a href="/instagram"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

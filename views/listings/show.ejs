@@ -1,0 +1,266 @@
+<% layout('/layouts/nonavbar') %>
+<body>
+    <style>
+        /* Styles for the card and its components */
+        .show-card {
+            position: relative;
+            width: 25rem; /* Set width of the card */
+            border-radius: 10px; /* Rounded corners for the card */
+            overflow: hidden; /* Ensure content doesn't overflow */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for the card */
+            transition: transform 0.3s ease; /* Transition for scale effect */
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        .show-card:hover {
+            transform: scale(1.05); /* Scale up the card on hover */
+        }
+
+        .show-card-img-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px 10px 0 0; /* Rounded top corners */
+        }
+
+        .show-card-img {
+            width: 100%; /* Ensure the image fills its container */
+            height: auto; /* Maintain aspect ratio */
+            transition: transform 0.3s ease, opacity 0.3s ease; /* Transition for image transform and opacity */
+        }
+
+        .show-card-description {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.471);
+            padding: 1rem;
+            text-align: center;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s ease; /* Transition for opacity */
+        }
+
+        .show-card:hover .show-card-description {
+            opacity: 1; /* Show description text on hover */
+        }
+
+        /* Button styling */
+        .btn {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            margin-bottom: 20px; /* Adjusted from 35px to match consistency */
+        }
+
+        /* Form styling */
+        form {
+            margin-top: 20px; /* Space between form and buttons */
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        form input[type="range"] {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        form textarea {
+            width: 100%;
+            height: 10rem;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+
+        form button {
+            font-size: 1rem;
+            background-color:rgba(0, 0, 0, 0.658); /* Bootstrap primary button color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-left: 0;
+        }
+
+        form button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        
+        .card-text {
+            padding-left: 5px;
+        }
+
+        /* Styles for the comments section */
+        .reviews-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .comment-card {
+            flex: 1 1 calc(33% - 1rem); /* Three cards per row */
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box; /* Ensures padding and border are included in the width calculation */
+        }
+
+        .comment-rating {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f39c12; /* Gold color for rating stars */
+        }
+
+        .comment-text {
+            margin-top: 0.5rem;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .comment-heading {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .comment-author {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .delete-but{
+            border: orchid;
+            border-radius: 50%;
+        }
+        
+    </style>
+
+    <div class="show-card">
+        <div class="show-card-img-container">
+            <img src="<%= listings.image.url %>" class="show-card-img" alt="...">
+            <div class="show-card-description">
+              
+                <p><%= listings.description %></p>
+                <p><i>By-<%= listings.owner.username %></i></p>
+            </div>
+        </div>
+     
+        <div class="card-body">
+            <p class="card-heading"><b><%= listings.title %></b></p>
+            <p class="card-text">&#8377;<%= listings.price.toLocaleString("en-IN") %>/night</p>
+            <p class="card-text"><%= listings.location %></p>
+            <p class="card-text"><%= listings.country %></p>
+        </div>
+    </div>
+
+    <br>
+    <div>
+        <% if (currentUser && currentUser._id.equals(listings.owner._id)) { %>
+    <a href="/listings/<%= listings._id %>/edit" class="btn btn-primary">Edit this Listing</a>
+
+    <form method="POST" action="/listings/<%= listings._id %>?_method=DELETE" style="display: inline;">
+        <button type="submit" class="btn btn-danger">Delete this Listing</button>
+    </form>
+    <% } %>
+  </div>
+  <% if (currentUser) { %>
+    <div>
+     <hr>
+        <h4>Leave a Review</h4>
+        <form id="reviewForm" method="POST" action="/listings/<%= listings._id %>/reviews" novalidate class="needs-validation">
+            <div>
+                <div>
+                    <label for="rating">Rating:</label>
+                    <div class="custom-star-rating">
+                        <input type="radio" id="custom-star5" name="review[rating]" value="1">
+                        <label for="custom-star5"><i class="fa fa-star"></i></label>
+                        <input type="radio" id="custom-star4" name="review[rating]" value="2">
+                        <label for="custom-star4"><i class="fa fa-star"></i></label>
+                        <input type="radio" id="custom-star3" name="review[rating]" value="3">
+                        <label for="custom-star3"><i class="fa fa-star"></i></label>
+                        <input type="radio" id="custom-star2" name="review[rating]" value="4">
+                        <label for="custom-star2"><i class="fa fa-star"></i></label>
+                        <input type="radio" id="custom-star1" name="review[rating]" value="5">
+                        <label for="custom-star1"><i class="fa fa-star"></i></label>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <label for="comment">Comments:</label>
+                <textarea id="comment" name="review[comment]" rows="5" required></textarea>
+                <div class="invalid-feedback"> Please write something</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+        </form>
+    </div>
+    <% } %>
+
+    <hr/>
+    <h4>All Reviews</h4>
+    <div class="reviews-container">
+        <% for(let review of listings.reviews) { %>
+            <div class="comment-card">
+                <div class="comment-author"><b>@<%= review.author.username  %></b></div>
+                <div class="comment-rating"><div class="comment-rating">
+                    <% for (let i = 0; i < review.rating; i++) { %>
+                        <i class="fa fa-star"></i>
+                    <% } %>
+                    <% for (let i = review.rating; i < 5; i++) { %>
+                        <i class="fa fa-star-o"></i>
+                    <% } %>
+                </div></div>
+                <div class="comment-text"><%= review.comment %></div>
+                <% if (currentUser && currentUser._id.equals(review.author._id)) { %>
+                <form method="POST" action="/listings/<%= listings._id %>/reviews/<%= review._id  %>?_method=DELETE">
+                    <button>Delete</button>
+                </form>
+                <% } %>
+            </div>
+            <% } %>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('reviewForm').addEventListener('submit', function(event) {
+                const ratingInputs = document.querySelectorAll('input[name="review[rating]"]');
+                let ratingSelected = false;
+                ratingInputs.forEach(input => {
+                    if (input.checked) {
+                        ratingSelected = true;
+                    }
+                });
+                if (!ratingSelected) {
+                    alert('Please select a rating.');
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+    const starInputs = document.querySelectorAll('.custom-star-rating input');
+
+    starInputs.forEach(input => {
+        input.addEventListener('click', function() {
+            const clickedIndex = Array.from(starInputs).indexOf(input);
+
+            // Color all stars up to the clicked one
+            for (let i = 0; i <= clickedIndex; i++) {
+                starInputs[i].nextElementSibling.style.color = '#ffc107'; // Gold color
+                starInputs[i].nextElementSibling.style.borderColor = '#ffc107'; // Gold border color
+            }
+
+            // Uncolor stars after the clicked one
+            for (let i = clickedIndex + 1; i < starInputs.length; i++) {
+                starInputs[i].nextElementSibling.style.color = '#3e4a61'; // White color
+                starInputs[i].nextElementSibling.style.borderColor = 'black'; // Black border color
+            }
+        });
+    });
+});
+
+    </script>
+    
+</body>
